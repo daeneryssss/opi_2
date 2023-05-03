@@ -48,9 +48,13 @@ namespace lab2
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button2 = new System.Windows.Forms.Button();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -80,7 +84,7 @@ namespace lab2
             this.hTMLEditorToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1114, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1114, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -91,7 +95,7 @@ namespace lab2
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
@@ -124,7 +128,7 @@ namespace lab2
             this.deleteToolStripMenuItem,
             this.deleteAllExtraSpacesToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // copyToolStripMenuItem
@@ -165,28 +169,28 @@ namespace lab2
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(81, 26);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.infoToolStripMenuItem.Text = "Statistics";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(51, 26);
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.findToolStripMenuItem.Text = "Find";
             this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click_1);
             // 
             // infoToolStripMenuItem1
             // 
             this.infoToolStripMenuItem1.Name = "infoToolStripMenuItem1";
-            this.infoToolStripMenuItem1.Size = new System.Drawing.Size(49, 26);
+            this.infoToolStripMenuItem1.Size = new System.Drawing.Size(49, 24);
             this.infoToolStripMenuItem1.Text = "Info";
             this.infoToolStripMenuItem1.Click += new System.EventHandler(this.infoToolStripMenuItem1_Click);
             // 
             // hTMLEditorToolStripMenuItem
             // 
             this.hTMLEditorToolStripMenuItem.Name = "hTMLEditorToolStripMenuItem";
-            this.hTMLEditorToolStripMenuItem.Size = new System.Drawing.Size(106, 26);
+            this.hTMLEditorToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.hTMLEditorToolStripMenuItem.Text = "HTML editor";
             this.hTMLEditorToolStripMenuItem.Click += new System.EventHandler(this.hTMLEditorToolStripMenuItem_Click);
             // 
@@ -197,30 +201,61 @@ namespace lab2
             // panel1
             // 
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.radioButton3);
+            this.panel1.Controls.Add(this.radioButton2);
+            this.panel1.Controls.Add(this.radioButton1);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(915, 30);
+            this.panel1.Location = new System.Drawing.Point(915, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(199, 522);
+            this.panel1.Size = new System.Drawing.Size(199, 524);
             this.panel1.TabIndex = 2;
             // 
-            // label1
+            // button2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Choose the amount of news:";
+            this.button2.Location = new System.Drawing.Point(32, 255);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "save";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // numericUpDown1
+            // radioButton3
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(41, 48);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDown1.TabIndex = 1;
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(32, 217);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(68, 21);
+            this.radioButton3.TabIndex = 5;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "binary";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(32, 190);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(55, 21);
+            this.radioButton2.TabIndex = 4;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "html";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(32, 163);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(51, 21);
+            this.radioButton1.TabIndex = 3;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "text";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
@@ -231,6 +266,22 @@ namespace lab2
             this.button1.Text = "Load news";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(41, 48);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDown1.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(187, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Choose the amount of news:";
             // 
             // Form1
             // 
@@ -277,6 +328,10 @@ namespace lab2
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 

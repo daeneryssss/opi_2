@@ -20,8 +20,8 @@ namespace lab2
             InitializeComponent();
             saveFileDialog1.Filter = "Text File(*.txt)|*.txt";
         }
-        private bool isDocumentSaved = false;
-        private string fileName = "";
+        public bool isDocumentSaved = false;
+        public string fileName = "";
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -239,5 +239,115 @@ namespace lab2
                 richTextBox1.AppendText(Environment.NewLine + "\n" + "--------------------------------------------------------------------------------" + "\n");
             }
         }
+        public class Document
+        {
+            public string Text { get; set; }
+
+            public Document(string text)
+            {
+                Text = text;
+            }
+        }
+
+        public abstract class DocumentWriter
+        {
+            public abstract void Write(Document document, string fileName);
+        }
+
+        public class HtmlDocumentWriter : DocumentWriter
+        {
+            public override void Write(Document document, string fileName)
+            {
+                string htmlText = "";
+                if (Path.GetExtension(fileName) != ".html")
+                {
+                    // Not an HTML file, write as plain text
+                    htmlText = document.Text;
+                }
+                else
+                {
+                    // HTML file, add tags
+                    htmlText = "<html><body>";
+                    foreach (string paragraph in document.Text.Split('\n'))
+                    {
+                        htmlText += "<p>" + paragraph + "</p>";
+                    }
+                    htmlText += "</body></html>";
+                }
+
+                File.WriteAllText(fileName, htmlText);
+            }
+        }
+
+        public class TextDocumentWriter : DocumentWriter
+        {
+            public override void Write(Document document, string fileName)
+            {
+                if (Path.GetExtension(fileName) != ".txt")
+                {
+                    // Not a text file, append .txt extension
+                    fileName += ".txt";
+                }
+                File.WriteAllText(fileName, document.Text);
+            }
+        }
+
+        public class BinaryDocumentWriter : DocumentWriter
+        {
+            public override void Write(Document document, string fileName)
+            {
+                if (Path.GetExtension(fileName) != ".bin")
+                {
+                    // Not a binary file, append .bin extension
+                    fileName += ".bin";
+                }
+                byte[] bytes = Encoding.UTF8.GetBytes(document.Text);
+                File.WriteAllBytes(fileName, bytes);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Document document = new Document(richTextBox1.Text);
+
+            DocumentWriter writer;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            if (radioButton1.Checked)
+            {
+                writer = new TextDocumentWriter();
+                saveFileDialog1.Filter = "Text Files (*.txt)|*.txt";
+            }
+            else if (radioButton2.Checked)
+            {
+                writer = new HtmlDocumentWriter();
+                saveFileDialog1.Filter = "HTML Files (*.html)|*.html";
+            }
+            else if (radioButton3.Checked)
+            {
+                writer = new BinaryDocumentWriter();
+                saveFileDialog1.Filter = "Binary Files (*.bin)|*.bin";
+            }
+            else
+            {
+                MessageBox.Show("Please select a file format.");
+                return;
+            }
+
+            
+            
+            saveFileDialog1.Title = "Save file as";
+            saveFileDialog1.ShowDialog();
+
+            try
+            {
+                writer.Write(document, saveFileDialog1.FileName);
+                MessageBox.Show("File saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving file: " + ex.Message);
+            }
+        }
+
     }
 }
