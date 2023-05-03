@@ -261,12 +261,10 @@ namespace lab2
                 string htmlText = "";
                 if (Path.GetExtension(fileName) != ".html")
                 {
-                    // Not an HTML file, write as plain text
                     htmlText = document.Text;
                 }
                 else
                 {
-                    // HTML file, add tags
                     htmlText = "<html><body>";
                     foreach (string paragraph in document.Text.Split('\n'))
                     {
@@ -285,7 +283,6 @@ namespace lab2
             {
                 if (Path.GetExtension(fileName) != ".txt")
                 {
-                    // Not a text file, append .txt extension
                     fileName += ".txt";
                 }
                 File.WriteAllText(fileName, document.Text);
@@ -298,7 +295,6 @@ namespace lab2
             {
                 if (Path.GetExtension(fileName) != ".bin")
                 {
-                    // Not a binary file, append .bin extension
                     fileName += ".bin";
                 }
                 byte[] bytes = Encoding.UTF8.GetBytes(document.Text);
