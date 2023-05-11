@@ -48,6 +48,8 @@ namespace lab2
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -55,9 +57,13 @@ namespace lab2
             this.button1 = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -68,7 +74,7 @@ namespace lab2
             this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.richTextBox1.Location = new System.Drawing.Point(0, 30);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(913, 522);
+            this.richTextBox1.Size = new System.Drawing.Size(913, 644);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -201,6 +207,8 @@ namespace lab2
             // panel1
             // 
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.richTextBox2);
+            this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
@@ -211,14 +219,36 @@ namespace lab2
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(915, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(199, 524);
+            this.panel1.Size = new System.Drawing.Size(199, 646);
             this.panel1.TabIndex = 2;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox2.Location = new System.Drawing.Point(18, 330);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Size = new System.Drawing.Size(169, 292);
+            this.richTextBox2.TabIndex = 8;
+            this.richTextBox2.Text = "";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(50, 265);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(93, 36);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "open";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(32, 255);
+            this.button2.Location = new System.Drawing.Point(50, 225);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(93, 34);
             this.button2.TabIndex = 6;
             this.button2.Text = "save";
             this.button2.UseVisualStyleBackColor = true;
@@ -227,7 +257,7 @@ namespace lab2
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(32, 217);
+            this.radioButton3.Location = new System.Drawing.Point(32, 189);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(68, 21);
             this.radioButton3.TabIndex = 5;
@@ -238,7 +268,7 @@ namespace lab2
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(32, 190);
+            this.radioButton2.Location = new System.Drawing.Point(32, 162);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(55, 21);
             this.radioButton2.TabIndex = 4;
@@ -249,7 +279,7 @@ namespace lab2
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(32, 163);
+            this.radioButton1.Location = new System.Drawing.Point(32, 135);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(51, 21);
             this.radioButton1.TabIndex = 3;
@@ -283,11 +313,45 @@ namespace lab2
             this.label1.TabIndex = 0;
             this.label1.Text = "Choose the amount of news:";
             // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.button4);
+            this.panel2.Controls.Add(this.richTextBox3);
+            this.panel2.Location = new System.Drawing.Point(0, 513);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(913, 161);
+            this.panel2.TabIndex = 3;
+            // 
+            // richTextBox3
+            // 
+            this.richTextBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox3.Location = new System.Drawing.Point(12, 44);
+            this.richTextBox3.Name = "richTextBox3";
+            this.richTextBox3.ReadOnly = true;
+            this.richTextBox3.Size = new System.Drawing.Size(445, 105);
+            this.richTextBox3.TabIndex = 0;
+            this.richTextBox3.Text = "";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(122, 8);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(206, 30);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "Save and see the protocol";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1114, 552);
+            this.ClientSize = new System.Drawing.Size(1114, 674);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.menuStrip1);
@@ -299,6 +363,7 @@ namespace lab2
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -332,6 +397,11 @@ namespace lab2
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.Button button4;
     }
 }
 

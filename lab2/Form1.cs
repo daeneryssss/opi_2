@@ -15,14 +15,15 @@ namespace lab2
 {
     public partial class Form1 : Form
     {
+        public bool isDocumentSaved = false;
+        public string fileName = "";
         public Form1()
         {
             InitializeComponent();
             saveFileDialog1.Filter = "Text File(*.txt)|*.txt";
+            richTextBox1.KeyDown += richTextBox1_KeyDown;
         }
-        public bool isDocumentSaved = false;
-        public string fileName = "";
-
+        // основні функції
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
@@ -45,17 +46,7 @@ namespace lab2
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (isDocumentSaved == true)
-                richTextBox1.SaveFile(fileName, RichTextBoxStreamType.PlainText);
-            else
-            {
-                if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
-                    return;
-                fileName = saveFileDialog1.FileName;
-                File.WriteAllText(fileName, richTextBox1.Text);
-            }
-            MessageBox.Show("File has been saved!");
-            isDocumentSaved = true;
+            SaveTextToFile();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -242,13 +233,89 @@ namespace lab2
         public class Document
         {
             public string Text { get; set; }
-
             public Document(string text)
             {
                 Text = text;
             }
         }
+        // лабораторна 4
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var instance = Singleton<LogEventLogger>.GetInstance(0);
+                instance.LogEvent(DateTime.Now, "Last clicked change", richTextBox3);
+            }
+            catch (Exception ex)
+            {
+                richTextBox3.AppendText($"Error: {ex.Message}\r\n");
+            }
+        }
 
+        public class LogEventLogger : Singleton<LogEventLogger>
+        {
+            private List<LogEvent> _logs;
+
+            protected LogEventLogger()
+            {
+                _logs = new List<LogEvent>();
+            }
+
+            public void LogEvent(DateTime timeStamp, string text, RichTextBox richTextBox)
+            {
+                _logs.Add(new LogEvent(timeStamp, text, richTextBox));
+                string logText = $"{timeStamp} - {text}\r\n";
+                richTextBox.AppendText(logText);
+            }
+        }
+
+        public class LogEvent
+        {
+            public DateTime TimeStamp { get; }
+            public string Text { get; }
+            public RichTextBox RichTextBox { get; }
+
+            public LogEvent(DateTime timeStamp, string text, RichTextBox richTextBox)
+            {
+                TimeStamp = timeStamp;
+                Text = text;
+                RichTextBox = richTextBox;
+            }
+        }
+
+        public class Singleton<T> where T : class
+        {
+            private static readonly Lazy<T>[] instances_;
+            const int maxInstances = 1;
+            static Singleton()
+            {
+                instances_ = new Lazy<T>[maxInstances];
+                for (int i = 0; i < maxInstances; i++)
+                {
+                    instances_[i] = new Lazy<T>(() => CreateInstance());
+                }
+            }
+            protected Singleton() { }
+
+            private static T CreateInstance()
+            {
+                System.Reflection.ConstructorInfo cInfo = typeof(T).GetConstructor(
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                    null,
+                    new Type[0],
+                    new System.Reflection.ParameterModifier[0]);
+                return (T)cInfo.Invoke(null);
+            }
+
+            public static T GetInstance(int index)
+            {
+                if (index < 0 || index >= instances_.Length)
+                    throw new ArgumentOutOfRangeException(nameof(index), "Invalid instance index");
+
+                return instances_[index].Value;
+            }
+        }
+        // лабораторна 5
         public abstract class DocumentWriter
         {
             public abstract void Write(Document document, string fileName);
@@ -265,14 +332,13 @@ namespace lab2
                 }
                 else
                 {
-                    htmlText = "<html><body>";
+                    htmlText = "<html>\n<body>\n";
                     foreach (string paragraph in document.Text.Split('\n'))
                     {
                         htmlText += "<p>" + paragraph + "</p>";
                     }
-                    htmlText += "</body></html>";
+                    htmlText += "\n</body>\n</html>";
                 }
-
                 File.WriteAllText(fileName, htmlText);
             }
         }
@@ -301,26 +367,42 @@ namespace lab2
                 File.WriteAllBytes(fileName, bytes);
             }
         }
+        public static class DocumentWriterFactory
+        {
+            public static DocumentWriter CreateDocumentWriter(string fileExtension)
+            {
+                switch (fileExtension)
+                {
+                    case ".html":
+                        return new HtmlDocumentWriter();
+                    case ".txt":
+                        return new TextDocumentWriter();
+                    case ".bin":
+                        return new BinaryDocumentWriter();
+                    default:
+                        throw new ArgumentException("Unsupported file extension: " + fileExtension);
+                }
+            }
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Document document = new Document(richTextBox1.Text);
-
-            DocumentWriter writer;
+            string fileExtension;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             if (radioButton1.Checked)
             {
-                writer = new TextDocumentWriter();
+                fileExtension = ".txt";
                 saveFileDialog1.Filter = "Text Files (*.txt)|*.txt";
             }
             else if (radioButton2.Checked)
             {
-                writer = new HtmlDocumentWriter();
+                fileExtension = ".html";
                 saveFileDialog1.Filter = "HTML Files (*.html)|*.html";
             }
             else if (radioButton3.Checked)
             {
-                writer = new BinaryDocumentWriter();
+                fileExtension = ".bin";
                 saveFileDialog1.Filter = "Binary Files (*.bin)|*.bin";
             }
             else
@@ -329,13 +411,12 @@ namespace lab2
                 return;
             }
 
-            
-            
             saveFileDialog1.Title = "Save file as";
             saveFileDialog1.ShowDialog();
 
             try
             {
+                DocumentWriter writer = DocumentWriterFactory.CreateDocumentWriter(fileExtension);
                 writer.Write(document, saveFileDialog1.FileName);
                 MessageBox.Show("File saved successfully.");
             }
@@ -345,5 +426,162 @@ namespace lab2
             }
         }
 
+        // лабораторна 6
+        public abstract class DocumentReader
+        {
+            public abstract Document Read(string fileName);
+        }
+
+        public class HtmlDocumentReader : DocumentReader
+        {
+            public override Document Read(string fileName)
+            {
+                string htmlText = File.ReadAllText(fileName);
+                htmlText = Regex.Replace(htmlText, @"<(?!p|br)[^>]*>", "");
+                htmlText = htmlText.Replace("<br>", "\n");
+                htmlText = htmlText.Replace("<p>", "\n");
+                htmlText = htmlText.Replace("</p>", "");
+                return new Document(htmlText);
+            }
+        }
+        public class TextDocumentReader : DocumentReader
+        {
+            public override Document Read(string fileName)
+            {
+                string text = File.ReadAllText(fileName);
+                return new Document(text);
+            }
+        }
+        public class BinaryDocumentReader : DocumentReader
+        {
+            public override Document Read(string fileName)
+            {
+                byte[] bytes = File.ReadAllBytes(fileName);
+                string text = Encoding.UTF8.GetString(bytes);
+                return new Document(text);
+            }
+        }
+        public abstract class DocumentReaderFactory
+        {
+            public abstract DocumentReader CreateDocumentReader();
+        }
+        public class HtmlDocumentReaderFactory : DocumentReaderFactory
+        {
+            public override DocumentReader CreateDocumentReader()
+            {
+                return new HtmlDocumentReader();
+            }
+        }
+        public class TextDocumentReaderFactory : DocumentReaderFactory
+        {
+            public override DocumentReader CreateDocumentReader()
+            {
+                return new TextDocumentReader();
+            }
+        }
+        public class BinaryDocumentReaderFactory : DocumentReaderFactory
+        {
+            public override DocumentReader CreateDocumentReader()
+            {
+                return new BinaryDocumentReader();
+            }
+        }
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            try
+            {
+                DocumentReaderFactory readerFactory;
+                if (radioButton1.Checked)
+                {
+                    openFileDialog1.Filter = "Text Files (*.txt)|*.txt";
+                    readerFactory = new TextDocumentReaderFactory();
+                }
+                else if (radioButton2.Checked)
+                {
+                    openFileDialog1.Filter = "HTML Files (*.html)|*.html";
+                    readerFactory = new HtmlDocumentReaderFactory();
+                }
+                else if (radioButton3.Checked)
+                {
+                    openFileDialog1.Filter = "Binary Files (*.bin)|*.bin";
+                    readerFactory = new BinaryDocumentReaderFactory();
+                }
+                else
+                {
+                    MessageBox.Show("Unsupported file format.");
+                    return;
+                }
+                openFileDialog1.Title = "Open file";
+                openFileDialog1.ShowDialog();
+                string fileName = openFileDialog1.FileName;
+                string fileExtension = Path.GetExtension(fileName);
+                DocumentReader reader = readerFactory.CreateDocumentReader();
+                Document document = reader.Read(fileName);
+                richTextBox1.Text = document.Text;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening file: " + ex.Message);
+            }
+        }
+        // лабораторна 7 (автосейв + спостерігач)
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            var text = richTextBox1.Text;
+            var lines = text.Split('\n');
+            var linkObserver = new LinkObserver(richTextBox2);
+            foreach (var line in lines)
+            {
+                linkObserver.Update(line);
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                SaveTextToFile();
+            }
+        }
+        private void SaveTextToFile()
+        {
+            if (isDocumentSaved == true)
+                richTextBox1.SaveFile(fileName, RichTextBoxStreamType.PlainText);
+            else
+            {
+                if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                    return;
+                fileName = saveFileDialog1.FileName;
+                File.WriteAllText(fileName, richTextBox1.Text);
+            }
+            MessageBox.Show("File has been saved!");
+            isDocumentSaved = true;
+        }
+        public interface IObserver
+        {
+            void Update(string data);
+        }
+
+        public class LinkObserver : IObserver
+        {
+            private readonly RichTextBox _output;
+
+            public LinkObserver(RichTextBox output)
+            {
+                _output = output;
+                _output.Text = "";
+            }
+
+            public void Update(string data)
+            {
+                var regex = new Regex(@"\S+\.(edu.ua|net.ua|com.ua|in.ua|org.ua)", RegexOptions.IgnoreCase);
+                var matches = regex.Matches(data);
+
+                if (matches.Count > 0)
+                {
+                    foreach (Match match in matches)
+                    {
+                        _output.AppendText(match.Value + "\n");
+                    }
+                }
+            }
+        }
     }
 }
