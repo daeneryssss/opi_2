@@ -58,8 +58,10 @@ namespace lab2
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -90,7 +92,7 @@ namespace lab2
             this.hTMLEditorToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1114, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1114, 30);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -217,9 +219,9 @@ namespace lab2
             this.panel1.Controls.Add(this.numericUpDown1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(915, 28);
+            this.panel1.Location = new System.Drawing.Point(915, 30);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(199, 646);
+            this.panel1.Size = new System.Drawing.Size(199, 644);
             this.panel1.TabIndex = 2;
             // 
             // richTextBox2
@@ -230,7 +232,7 @@ namespace lab2
             this.richTextBox2.Location = new System.Drawing.Point(18, 330);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(169, 292);
+            this.richTextBox2.Size = new System.Drawing.Size(169, 290);
             this.richTextBox2.TabIndex = 8;
             this.richTextBox2.Text = "";
             // 
@@ -317,12 +319,24 @@ namespace lab2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.richTextBox4);
             this.panel2.Controls.Add(this.button4);
             this.panel2.Controls.Add(this.richTextBox3);
             this.panel2.Location = new System.Drawing.Point(0, 513);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(913, 161);
             this.panel2.TabIndex = 3;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(122, 8);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(206, 30);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "Save and see the protocol";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // richTextBox3
             // 
@@ -336,15 +350,25 @@ namespace lab2
             this.richTextBox3.TabIndex = 0;
             this.richTextBox3.Text = "";
             // 
-            // button4
+            // richTextBox4
             // 
-            this.button4.Location = new System.Drawing.Point(122, 8);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(206, 30);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Save and see the protocol";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.richTextBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBox4.Location = new System.Drawing.Point(475, 44);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.Size = new System.Drawing.Size(425, 105);
+            this.richTextBox4.TabIndex = 2;
+            this.richTextBox4.Text = "";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(491, 12);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(107, 24);
+            this.comboBox1.TabIndex = 3;
             // 
             // Form1
             // 
@@ -402,6 +426,8 @@ namespace lab2
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RichTextBox richTextBox3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

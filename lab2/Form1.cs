@@ -22,6 +22,8 @@ namespace lab2
             InitializeComponent();
             saveFileDialog1.Filter = "Text File(*.txt)|*.txt";
             richTextBox1.KeyDown += richTextBox1_KeyDown;
+            comboBox1.Items.Add("xml");
+            comboBox1.Items.Add("json");
         }
         // основні функції
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -40,8 +42,14 @@ namespace lab2
                 return;
             fileName = openFileDialog1.FileName;
             string fileText = File.ReadAllText(fileName);
+            string fileFormat = Path.GetExtension(fileName);
             richTextBox1.Text = fileText;
             isDocumentSaved = true;
+            if (fileFormat == ".xml" || fileFormat == ".json")
+            {
+                comboBox1.SelectedItem = fileFormat.Substring(1);
+                SaveLogsToFile();
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -51,7 +59,7 @@ namespace lab2
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(richTextBox1.TextLength > 0)
+            if (richTextBox1.TextLength > 0)
             {
                 richTextBox1.Copy();
             }
@@ -124,7 +132,7 @@ namespace lab2
                 int pagesCount = symbols / 1800;
                 //кількість голосних, приголосних, цифр, спеціальних символів, знаків пунктуації
                 int vowelCount = 0, consonantsCount = 0, numbersCount = 0, specialSymbolsCount = 0;
-                foreach(char symbol in fileContent.ToLower())
+                foreach (char symbol in fileContent.ToLower())
                 {
                     if (char.IsLetter(symbol))
                     {
@@ -582,6 +590,68 @@ namespace lab2
                     }
                 }
             }
+        }
+        // лабораторна 8 (будівельник)
+        public class Report
+        {
+            public string FileFormat { get; set; }
+            public DateTime OpenedTime { get; set; }
+        }
+        public abstract class ReportBuilder
+        {
+            protected Report report;
+            public void CreateReport()
+            {
+                report = new Report();
+            }
+            public Report GetReport()
+            {
+                return report;
+            }
+        }
+        public class XmlReportBuilder : ReportBuilder
+        {
+        }
+        public class JsonReportBuilder : ReportBuilder
+        {
+        }
+        public class ReportDirector
+        {
+            private ReportBuilder builder;
+            private ComboBox comboBox1;
+            public ReportDirector(ReportBuilder builder, ComboBox comboBox1)
+            {
+                this.builder = builder;
+                this.comboBox1 = comboBox1;
+            }
+            public void ConstructReport()
+            {
+                builder.CreateReport();
+                builder.GetReport().FileFormat = comboBox1.SelectedItem?.ToString();
+                builder.GetReport().OpenedTime = DateTime.Now;
+            }
+        }
+        private void SaveLogsToFile()
+        {
+            ReportBuilder builder;
+            if (comboBox1.SelectedItem?.ToString() == "xml")
+            {
+                builder = new XmlReportBuilder();
+            }
+            else if (comboBox1.SelectedItem?.ToString() == "json")
+            {
+                builder = new JsonReportBuilder();
+            }
+            else
+            {
+                MessageBox.Show("Invalid format selected.");
+                return;
+            }
+            ReportDirector director = new ReportDirector(builder, comboBox1);
+            director.ConstructReport();
+            richTextBox4.Clear();
+            richTextBox4.AppendText("File Format: " + builder.GetReport().FileFormat + "\n");
+            richTextBox4.AppendText("Opened Time: " + builder.GetReport().OpenedTime.ToString() + "\n");
         }
     }
 }
